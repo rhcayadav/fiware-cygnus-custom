@@ -1,0 +1,38 @@
+FROM rhcayadav/cygnus_custom-ckan_without_entrypoint:v1.1
+MAINTAINER Francisco Romero Bueno <francisco.romerobueno@telefonica.com>
+
+
+#ENV CYGNUS_SERVICE_PORT "5050"
+#ENV CYGNUS_API_PORT "8081"
+#ENV CYGNUS_MYSQL_HOST "iot-mysql"
+#ENV CYGNUS_MYSQL_PORT "3306"
+#ENV CYGNUS_MYSQL_USER "mysql"
+#ENV CYGNUS_MYSQL_PASS "mysql"
+ENV CYGNUS_MONGO_HOSTS "mongo-sth:27017"
+ENV CYGNUS_MONGO_USER ""
+ENV CYGNUS_MONGO_PASS ""
+#ENV CYGNUS_CKAN_HOST "180.179.214.207"
+#ENV CYGNUS_CKAN_PORT "5000"
+#ENV CYGNUS_CKAN_API_KEY "0b3ca93b-dd4e-4f1f-a059-3933956992ef"
+#ENV CYGNUS_CKAN_SSL "false"
+#ENV CYGNUS_HDFS_HOST "iot-hdfs"
+#ENV CYGNUS_HDFS_PORT "50070"
+#ENV CYGNUS_HDFS_USER "hdfs"
+#ENV CYGNUS_HDFS_TOKEN ""
+#ENV CYGNUS_CARTO_USER "carto"
+ENV CYGNUS_SERVICE_PORT "5050"
+ENV CYGNUS_API_PORT "8081"
+# SetUp wait script
+#COPY ./wait-for-it.sh /wait-for-it.sh
+# RUN chmod +x /wait-for-it.sh
+#
+# COPY ./agent_custom_comet.conf ${CYGNUS_CONF_FILE}
+COPY ./cygnus-entrypoint-custom.sh /cygnus-entrypoint.sh
+RUN chmod +x /cygnus-entrypoint.sh
+#
+# # Define the entry point
+ENTRYPOINT ["/cygnus-entrypoint.sh"]
+#
+# # Ports used by cygnus-ngsi
+EXPOSE ${CYGNUS_SERVICE_PORT} ${CYGNUS_API_PORT}
+#
